@@ -1,10 +1,12 @@
 'use client'
 
+import Image from "next/image";
 import { useState } from "react";
-import { Button, CustomFlowbiteTheme, Label, TextInput } from "flowbite-react";
+import { Button, Checkbox, CustomFlowbiteTheme, Label, TextInput } from "flowbite-react";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { grey } from '@mui/material/colors';
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isNewAccount, setIsNewAccount] = useState<boolean>(true);
@@ -15,6 +17,7 @@ export default function Home() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [color, setColor] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleLogin = () => {
     setIsNewAccount(!isNewAccount);
@@ -44,6 +47,7 @@ export default function Home() {
       }
     }else{
       // ELSE, LOGGING IN 
+      router.push('/ProfilePage')
     }
   }
 
@@ -110,7 +114,7 @@ export default function Home() {
               null
             }
             <div className="flex justify-center mt-3">
-              <Button className="bg-[#0B7D61]" type="submit"><p className="font-hammersmith !border-0 text-2xl rounded-md px-3 justify-center ">CREATE</p></Button>
+              <Button onClick={handleSignUp} className="bg-[#0B7D61]" type="submit"><p className="font-hammersmith !border-0 text-2xl rounded-md px-3 justify-center ">{isNewAccount ? 'CREATE' : 'LOGIN'}</p></Button>
             </div>
             <p className="font-hammersmith text-center text-black">
               {isNewAccount ? 'Already have an Account? ' : "Don't have an account? "}

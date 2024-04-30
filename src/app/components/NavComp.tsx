@@ -10,9 +10,9 @@ const NavComp = () => {
     <div>
       <Navbar fluid className='h-44 bg-navBack'>
         <Navbar.Brand>
-          <img className='px-8' width={350} src='/Logo.png' alt='maddie is cool!'/>
+          <img className='px-2' width={300} src='/Logo.png' alt='maddie is cool!'/>
         </Navbar.Brand>
-        <div className="flex md:order-2 mt-4 px-8">
+        <div className="flex md:order-2 mt-4 px-2">
           <Dropdown
             className='border border-black text-center'
             arrowIcon={false}

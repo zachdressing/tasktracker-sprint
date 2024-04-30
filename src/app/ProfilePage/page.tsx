@@ -3,9 +3,16 @@
 import React, { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Button, Modal, Tooltip } from "flowbite-react";
+import { useRouter } from "next/navigation";
 
 const ProfilePage = () => {
     const [openModal, setOpenModal] = useState(false);
+    const router = useRouter();
+
+    const handleTaskPage = () => {
+        router.push('/TaskPage')
+    }
+    
     return (
         <div className="bg-[#F1FFFC] min-h-screen">
             <div className="px-10 grid grid-cols-5">
@@ -28,7 +35,7 @@ const ProfilePage = () => {
                         <AddIcon sx={{ fontSize: 50 }} className="mt-[-7px] cursor-pointer" onClick={() => setOpenModal(true)} />
                     </div>
                     <div className="mx-14">
-                        <div className="bg-[#AEE6D9] grid grid-cols-2 items-center px-10 py-7 rounded-md">
+                        <div className="bg-[#AEE6D9] grid grid-cols-2 items-center px-10 py-7 rounded-md cursor-pointer" onClick={handleTaskPage}>
                             <h1 className="col-span-1 flex justify-start font-hammersmith text-4xl">YOUR BOARD</h1>
                             <div className="col-span-1 flex justify-end">
                                 <div className="member"></div>

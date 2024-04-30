@@ -1,23 +1,27 @@
 "use client";
 import {Dropdown, Navbar } from 'flowbite-react'
+import { useRouter } from "next/navigation";
+
 
 const NavComp = () => {
+  const router = useRouter();
+
   return (
     <div>
-      <Navbar fluid className='h-28 bg-navBack'>
+      <Navbar fluid className='h-44 bg-navBack'>
         <Navbar.Brand>
-          <img src='/Logo.png' alt='maddie is cool!'/>
+          <img className='px-8' width={350} src='/Logo.png' alt='maddie is cool!'/>
         </Navbar.Brand>
-        <div className="flex md:order-2">
+        <div className="flex md:order-2 mt-4 px-8">
           <Dropdown
             className='border border-black text-center'
             arrowIcon={false}
             inline
             label={
-              <div className='w-16 h-16 rounded-full bg-blueish border border-black'></div>
+              <div className='w-[88px] h-[88px] rounded-full bg-blueish border border-black'></div>
             }
           >
-            <Dropdown.Item>PROFILE</Dropdown.Item>
+            <Dropdown.Item onClick={() => router.push('/TaskPage')}>PROFILE</Dropdown.Item>
             <Dropdown.Item>CREATE BOARD</Dropdown.Item>
             <Dropdown.Item>LOG OUT<img className='ml-4' src='/Vector.png' alt='vector'/></Dropdown.Item>
           </Dropdown>

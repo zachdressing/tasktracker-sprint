@@ -10,6 +10,10 @@ const config: Config = {
     flowbite.content(),
   ],
   theme: {
+    fontFamily: {
+      hammersmith: ['hammersmith'],
+      holtwood: ['holtwood'],
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

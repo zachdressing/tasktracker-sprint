@@ -2,4 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-
+@layer components{
+    @font-face {
+      font-family: hammersmith;
+      src: url(../assets/HammersmithOne-Regular.ttf);
+    }
+  
+    @font-face {
+      font-family: holtwood;
+      src: url(../assets/HoltwoodOneSC-Regular.ttf);
+    }
+  }

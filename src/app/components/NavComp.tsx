@@ -4,17 +4,17 @@ import {Dropdown, Navbar } from 'flowbite-react'
 const NavComp = () => {
   return (
     <div>
-      <Navbar fluid className='w-screen h-28 bg-navBack'>
+      <Navbar fluid className='w-screen h-36 bg-navBack'>
         <Navbar.Brand>
-          <img src='/Logo.png' alt='maddie is cool!'/>
+          <img className='pl-12' src='/Logo.png' alt='maddie is cool!'/>
         </Navbar.Brand>
-        <div className="flex md:order-2">
+        <div className="flex md:order-2 mt-4">
           <Dropdown
             className='border border-black text-center'
             arrowIcon={false}
             inline
             label={
-              <div className='w-16 h-16 rounded-full bg-blueish border border-black'></div>
+              <div className='w-16 h-16 rounded-full bg-blueish border border-black mx-auto'></div>
             }
           >
             <Dropdown.Item>PROFILE</Dropdown.Item>

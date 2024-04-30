@@ -1,0 +1,15 @@
+[
+    {
+        "Logged Users":[{
+            "user1":[{
+                "color":"blue"
+            }],
+            "user2":[{
+                "color":"purple"
+            }],
+            "user3":[{
+                "color":"red"
+            }]
+        }]
+    }
+]

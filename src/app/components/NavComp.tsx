@@ -4,7 +4,7 @@ import {Dropdown, Navbar } from 'flowbite-react'
 const NavComp = () => {
   return (
     <div>
-      <Navbar fluid className='w-screen h-36 bg-navBack'>
+      <Navbar fluid className='h-36 bg-navBack'>
         <Navbar.Brand>
           <img className='pl-12' src='/Logo.png' alt='maddie is cool!'/>
         </Navbar.Brand>

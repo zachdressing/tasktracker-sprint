@@ -1,15 +1,23 @@
 [
     {
-        "Logged Users":[{
-            "user1":[{
-                "color":"blue"
-            }],
-            "user2":[{
-                "color":"purple"
-            }],
-            "user3":[{
-                "color":"red"
-            }]
+        "tasks":[{
+            "title":"Task Title",
+            "desc":"asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
+            "color":"reddish",
+            "priority":2,
+            "category":"0"
+        },{
+            "title":"Task Title2",
+            "desc":"asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
+            "color":"reddish",
+            "priority":2,
+            "category":"0" 
+        },{
+            "title":"Task Title3",
+            "desc":"asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
+            "color":"reddish",
+            "priority":2,
+            "category":"0"
         }]
     }
 ]

@@ -5,6 +5,13 @@ interface IdefaultPosition {
     } 
 }
 
+interface iTaskStuff{
+    title:string,
+    desc:string,
+    priority:number,
+    color:string
+}
+
 interface Itask{
     name: string
     description: string

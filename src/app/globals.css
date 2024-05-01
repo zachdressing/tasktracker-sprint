@@ -2,34 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components{
-    @font-face {
-      font-family: hammersmith;
-      src: url(../assets/HammersmithOne-Regular.ttf);
-    }
-  
-    @font-face {
-      font-family: holtwood;
-      src: url(../assets/HoltwoodOneSC-Regular.ttf);
-    }
+@layer components {
+  @font-face {
+    font-family: hammersmith;
+    src: url(../assets/HammersmithOne-Regular.ttf);
   }
 
-.profileColor {
-    border-radius: 50%;
-    border: 1px solid black;
-    height: 230px;
-    width: 230px;
-    background-color: #57CDFF;
+  @font-face {
+    font-family: holtwood;
+    src: url(../assets/HoltwoodOneSC-Regular.ttf);
+  }
 }
 
-.member{
-    border-radius: 50%;
-    border: 1px solid black;
-    height: 50px;
-    width: 50px;
-    background-color: #57CDFF;
+@layer utilities {
+
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+}
+
+.profileColor {
+  border-radius: 50%;
+  border: 1px solid black;
+  height: 230px;
+  width: 230px;
+  /* background-color: #57CDFF; */
+}
+
+.member {
+  border-radius: 50%;
+  border: 1px solid black;
+  height: 50px;
+  width: 50px;
+  background-color: #57CDFF;
 }
 
 .divider {
-    border-right: 2px dashed black;
+  border-right: 2px dashed black;
 }

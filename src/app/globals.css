@@ -29,6 +29,26 @@
   }
 }
 
+.boardInput::-webkit-input-placeholder {
+  font-family: 'hammersmith';
+  color: #C8C8C8;
+}
+
+.boardInput:-ms-input-placeholder {
+  font-family: 'hammersmith';
+  color: #C8C8C8; 
+}
+
+.boardInput:-moz-placeholder {
+  font-family: 'hammersmith';
+  color: #C8C8C8; 
+}
+
+.boardInput::-moz-placeholder {
+  font-family: 'hammersmith';
+  color: #C8C8C8; 
+}
+
 .profileColor {
   border-radius: 50%;
   border: 1px solid black;

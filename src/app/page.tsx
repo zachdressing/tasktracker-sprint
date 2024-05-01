@@ -73,7 +73,7 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-[#F1FFFC] min-h-screen flex justify-center items-center">
+    <div className="bg-[#F1FFFC] min-h-screen flex flex-col flex-1 justify-center items-center">
       <div className="bg-[#3EBE9F] rounded-md w-[500px] py-10">
         <div className="flex flex-col justify-center items-center">
           <h1 className="text-black font-holtwood text-3xl text-center my-2.5">{isNewAccount ? 'CREATE ACCOUNT' : 'LOGIN'}</h1>

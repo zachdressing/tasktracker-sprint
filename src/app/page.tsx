@@ -7,48 +7,33 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { grey } from '@mui/material/colors';
 import { useRouter } from "next/navigation";
+import { IToken, IUserData } from "./interfaces/interfaces";
+import { createUser, loginUser } from "./utils/DataService";
 
 export default function Home() {
   const [isNewAccount, setIsNewAccount] = useState<boolean>(true);
   const [visibility, setVisibility] = useState<boolean>(false);
   const [seeConfirmation, setSeeConfirmation] = useState<boolean>(false);
+  // const [passwordsMatch, setPasswordsMatch] = useState<boolean | null>(null); // State to track password matching
+  const [confirmPassword, setConfirmPassword] = useState<string>(""); // New state for confirmed password
+
+  const [signUpSuccess, setSignUpSuccess] = useState<boolean>(false);
 
   const [id, setId] = useState<number>(0);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [color, setColor] = useState<string | null>(null);
+  const [color, setColor] = useState<string>("");
+  const [dateJoined, setDateJoined] = useState<string | null>(null);
   const router = useRouter();
 
   const handleLogin = () => {
     setIsNewAccount(!isNewAccount);
-  }
-
-
-  // handle signing up functionality
-  const handleSignUp = () => {
-    let userData = {
-      id: id,
-      username: username,
-      password: password,
-      color: color
-    }
-
-    let loginData = {
-      username: username,
-      password: password
-    }
-
-    // CREATING ACCOUNT 
-    if(isNewAccount){
-      try {
-        
-      } catch (error) {
-        
-      }
-    }else{
-      // ELSE, LOGGING IN 
-      router.push('/ProfilePage')
-    }
+    // setUsername("")
+    // setPassword("")
+    // setColor(null)
+    // setDateJoined("")
+    // setId(0);
+    // setConfirmPassword("")
   }
 
   // handle passwords' visibilities
@@ -59,6 +44,65 @@ export default function Home() {
   const handleSeeConfirmation = () => {
     setSeeConfirmation(!seeConfirmation);
   }
+
+
+
+  // handle signing up functionality
+  const handleSignUp = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+    e.preventDefault();
+  
+    if (isNewAccount && password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+  
+    const userData: IUserData = {
+      id,
+      username: username,
+      password: password,
+      color,
+      dateJoined
+    };
+  
+    const loginData = {
+      username,
+      password
+    };
+  
+    if (isNewAccount) {
+      try {
+        const signUpProcess = await createUser(userData);
+        setSignUpSuccess(true);
+        setIsNewAccount(false);
+        // Reset other state variables
+        setUsername("");
+        setPassword("");
+        setColor("");
+        setDateJoined("");
+        setId(0);
+        setConfirmPassword("");
+      } catch (error) {
+        setIsNewAccount(true);
+        setSignUpSuccess(false);
+        console.log('Sign up failed:', error);
+      }
+    } else {
+      try {
+        const token: IToken = await loginUser(loginData);
+        console.log('Token received:', token);
+  
+        if (token.token) {
+          setId(token.userId);
+          localStorage.setItem("Token", token.token);
+          localStorage.setItem("UserId", token.userId.toString());
+          router.push('/ProfilePage');
+        }
+      } catch (error) {
+        console.log('Login Failed:', error);
+      }
+    }
+  };
+
 
   // custom flowbite classes
   const customInput: CustomFlowbiteTheme['textInput'] = {
@@ -82,7 +126,7 @@ export default function Home() {
               <div className="block">
                 <Label htmlFor="username" value="Username" className="font-hammersmith text-black text-xl rounded" />
               </div>
-              <TextInput theme={customInput} color="custom" id="username" type="text" className="w-full !border-0" required />
+              <TextInput value={username} theme={customInput} color="custom" id="username" type="text" className="w-full !border-0" onChange={(e) => setUsername(e.target.value)} required />
             </div>
             <div>
               <div className="block">
@@ -90,10 +134,11 @@ export default function Home() {
               </div>
               {/* <TextInput theme={customInput} color="custom" id="password1" type="password" required /> */}
               <div className="grid grid-cols-6 bg-white rounded-lg focus-within:border-[#0B7D61] focus-within:ring-[#0B7D61]">
-                <TextInput theme={customInput} color="custom" className="col-span-5 input !focus-within:border-x-0" id="password1" type={visibility ? 'text' : 'password'}  required />
+                <TextInput value={password} theme={customInput} color="custom" className="col-span-5 input !focus-within:border-x-0" id="password1"
+                  type={visibility ? 'text' : 'password'} required onChange={(e) => setPassword(e.target.value)} />
                 <div className="col-span-1 flex justify-end items-center bg-white rounded-r-md pe-4 cursor-pointer">
-                  {visibility ? <VisibilityOutlinedIcon onClick={handlePassVisibility} sx={{color: grey[900], fontSize: 30}}/> :
-                    <VisibilityOffOutlinedIcon onClick={handlePassVisibility} sx={{color: grey[900], fontSize: 30}}/>}
+                  {visibility ? <VisibilityOutlinedIcon onClick={handlePassVisibility} sx={{ color: grey[900], fontSize: 30 }} /> :
+                    <VisibilityOffOutlinedIcon onClick={handlePassVisibility} sx={{ color: grey[900], fontSize: 30 }} />}
                 </div>
               </div>
             </div>
@@ -104,12 +149,12 @@ export default function Home() {
                 </div>
                 {/* <TextInput theme={customInput} color="custom" id="password2" type="password" required /> */}
                 <div className="grid grid-cols-6 bg-white rounded-lg focus-within:border-[#0B7D61] focus-within:ring-[#0B7D61]">
-                <TextInput theme={customInput} color="custom" className="col-span-5 input !focus-within:border-x-0" id="password2" type={seeConfirmation ? 'text' : 'password'}  required />
-                <div className="col-span-1 flex justify-end items-center bg-white rounded-r-md pe-4 cursor-pointer">
-                  {seeConfirmation ? <VisibilityOutlinedIcon onClick={handleSeeConfirmation} sx={{color: grey[900], fontSize: 30}}/> :
-                    <VisibilityOffOutlinedIcon onClick={handleSeeConfirmation} sx={{color: grey[900], fontSize: 30}}/>}
+                  <TextInput theme={customInput} color="custom" className="col-span-5 input !focus-within:border-x-0" id="password2" type={seeConfirmation ? 'text' : 'password'} required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                  <div className="col-span-1 flex justify-end items-center bg-white rounded-r-md pe-4 cursor-pointer">
+                    {seeConfirmation ? <VisibilityOutlinedIcon onClick={handleSeeConfirmation} sx={{ color: grey[900], fontSize: 30 }} /> :
+                      <VisibilityOffOutlinedIcon onClick={handleSeeConfirmation} sx={{ color: grey[900], fontSize: 30 }} />}
+                  </div>
                 </div>
-              </div>
               </div> :
               null
             }

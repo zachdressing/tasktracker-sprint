@@ -13,7 +13,7 @@ export interface ITask {
     color:         string;
     category:      number;
     id:            string;
-    comments:      TaskComment[];
+    comments?:      TaskComment[];
     assigneeColor: string;
     assigneeName:  string;
     createdDate:   number;

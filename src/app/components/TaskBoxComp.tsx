@@ -1,13 +1,13 @@
 import { Modal, Textarea } from 'flowbite-react'
 import React, { useState } from 'react'
-import { DragDropContext, Draggable } from 'react-beautiful-dnd';
+import { ITask } from '../interfaces/interfaces';
 
-const TaskBoxComp = (props: iTaskStuff) => {
+const TaskBoxComp = (props: ITask) => {
     const [openModal, setOpenModal] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
     return (
-        <Draggable key={props.id} draggableId={props.id.toString()} index={props.index}>
+        <div>
             <div id='main' className='h-48 w-fit bg-white rounded-lg p-4 flex flex-col justify-between' onDoubleClick={() => setOpenModal(true)} onMouseDownCapture={(e) => { setMousePos({ x: e.screenX, y: e.screenY }) }} onMouseUpCapture={(e) => { if (e.screenX != mousePos.x || e.screenY != mousePos.y) { } else { setOpenModal(true) } }}>
                 <div className="mb-2">
                     <h1 id='taskTitle' className='text-2xl font-bold'>{props.title}</h1>
@@ -53,7 +53,7 @@ const TaskBoxComp = (props: iTaskStuff) => {
                     </div>
                 </Modal.Body>
             </Modal>
-        </Draggable>
+        </div>
     )
 }
 

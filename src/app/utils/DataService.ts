@@ -66,7 +66,7 @@ export const getUserInfo = async(id: number) => {
 // CREATE BOARD
 export const createBoard = async (board: IBoardData) => {
     const res = await fetch(baseUrl + '/Board/CreateBoard', {
-        method: "PUT",
+        method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },

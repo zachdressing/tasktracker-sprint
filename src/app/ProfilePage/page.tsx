@@ -1,16 +1,30 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Button, Modal, Tooltip } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import CreateBoardComponent from "../components/CreateBoardComponent";
+import { useTaskContext } from "@/context/UseContext";
+import { getUserInfo } from "../utils/DataService";
 // import Users from "../utils/logindata.json"
 
 const ProfilePage = () => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [profilePic, setProfilePic] = useState<string | null>(null);
     const router = useRouter();
+    const info = useTaskContext();
+
+
+    // get user's information
+    useEffect(()=> {
+        let userId = Number(localStorage.getItem("UserId"));
+        const fetchedUser = async () => {
+            const user = await getUserInfo(userId);
+            info.setLoggedInUser(user);
+        };
+        fetchedUser();
+    }, [])
 
     const handlePicChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0];
@@ -30,6 +44,17 @@ const ProfilePage = () => {
     // Function that handles the User Image/Color
     const updateUserImage = () => {
 
+    }
+
+    // GET BOARD BY LEADER ID OR GET USER'S BOARD 
+    const handleBoardClick = () => {
+        try {
+            // const boardDisplayedInfo = await (board.id)
+            // info.setDisplayedBoard(boardDisplayedInfo)
+            router.push('/TaskPage')
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const getRandomColor = () => {
@@ -58,7 +83,9 @@ const ProfilePage = () => {
                         <Tooltip content="Randomize Color" placement="bottom" className="px-5 py-2 rounded-md font-hammersmith text-lg">
                             <img src="/PaintBrush.png" alt="" className="w-[45px] h-[45px] cursor-pointer" onClick={handlePaintBrushClick} />
                         </Tooltip>
-                        <div className="profileColor" style={{ backgroundColor: randomColor }}></div>
+                        <div className="profileColor" style={{ backgroundColor: randomColor }}>
+                            <img src={"/"} alt="" />
+                        </div>
                         <Tooltip content="Profile Picture" placement="bottom" className="px-5 py-2 rounded-md font-hammersmith text-lg">
                             <img src="/Pencil.png" alt="" className="w-[45px] h-[45px] cursor-pointer" />
                         </Tooltip>

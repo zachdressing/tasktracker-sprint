@@ -1,27 +1,38 @@
-interface IdefaultPosition {
-    defaultPosition:{
-        x: number
-        y: number
-    } 
+export interface IDragg {
+    categories: Icategory[];
+}
+export interface Icategory {
+    title: string;
+    color: string;
+    tasks: ITask[];
+}
+export interface ITask {
+    title:         string;
+    desc:          string;
+    priority:      number;
+    color:         string;
+    category:      number;
+    id:            string;
+    comments:      TaskComment[];
+    assigneeColor: string;
+    assigneeName:  string;
+    createdDate:   number;
 }
 
-interface Itask{
-    name: string
-    description: string
-    comments:Icomment[]
-    assignData:Iassignee 
+export interface TaskComment {
+    comment: CommentComment[];
 }
 
-interface Icomment{
-    username: string
-    date: number
-    time: number
-    replys:Icomment[]
+export interface CommentComment {
+    mainComment:  string;
+    replys:       Reply[];
+    date:         number;
+    time:         number;
+    commentColor: string;
 }
 
-interface Iassignee{
-    username: string
-    date: number
-    location: string
-    priority: number
+export interface Reply {
+    reply: string;
+    date:  number;
+    time:  number;
 }

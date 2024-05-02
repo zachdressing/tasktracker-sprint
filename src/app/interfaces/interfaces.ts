@@ -10,6 +10,8 @@ interface iTaskStuff{
     desc:string,
     priority:number,
     color:string
+    id:number
+    index:number
 }
 
 interface Itask{

@@ -1,35 +1,25 @@
 import { Modal, Textarea } from 'flowbite-react'
 import React, { useState } from 'react'
-import Draggable from 'react-draggable'
+import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 
 const TaskBoxComp = (props: iTaskStuff) => {
     const [openModal, setOpenModal] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
     return (
-        <div>
-            <Draggable
-                axis='y'
-                onStart={() => {
-                }}
-                onDrag={() => {
-                }}
-                onStop={() => {
-
-                }}>
-                <div id='main' className='h-48 w-fit bg-white rounded-lg p-4 flex flex-col justify-between' onDoubleClick={() => setOpenModal(true)} onMouseDownCapture={(e) => { setMousePos({ x: e.screenX, y: e.screenY }) }} onMouseUpCapture={(e) => { if (e.screenX != mousePos.x || e.screenY != mousePos.y) { } else { setOpenModal(true) } }}>
-                    <div className="mb-2">
-                        <h1 id='taskTitle' className='text-2xl font-bold'>{props.title}</h1>
-                    </div>
-                    <div className="w-72 text-ellipsis text-md font-bold">
-                        <p id='taskDesc'>{props.desc}</p>
-                    </div>
-                    <div className="w-full flex justify-between items-center font-bold">
-                        <p id='Priority' className='text-2xl'>Priority - {props.priority}</p>
-                        <div id='assignColor' className={`w-16 h-16 rounded-full bg-${props.color} border border-black`}></div>
-                    </div>
+        <Draggable key={props.id} draggableId={props.id.toString()} index={props.index}>
+            <div id='main' className='h-48 w-fit bg-white rounded-lg p-4 flex flex-col justify-between' onDoubleClick={() => setOpenModal(true)} onMouseDownCapture={(e) => { setMousePos({ x: e.screenX, y: e.screenY }) }} onMouseUpCapture={(e) => { if (e.screenX != mousePos.x || e.screenY != mousePos.y) { } else { setOpenModal(true) } }}>
+                <div className="mb-2">
+                    <h1 id='taskTitle' className='text-2xl font-bold'>{props.title}</h1>
                 </div>
-            </Draggable>
+                <div className="w-72 text-ellipsis text-md font-bold">
+                    <p id='taskDesc'>{props.desc}</p>
+                </div>
+                <div className="w-full flex justify-between items-center font-bold">
+                    <p id='Priority' className='text-2xl'>Priority - {props.priority}</p>
+                    <div id='assignColor' className={`w-16 h-16 rounded-full bg-${props.color} border border-black`}></div>
+                </div>
+            </div>
             <Modal className='font-bold' show={openModal} size="4xl" onClose={() => setOpenModal(false)} popup>
                 <Modal.Header className='p-8'>
                     <h1 className='text-4xl font-bold'>{props.title}</h1>
@@ -63,7 +53,7 @@ const TaskBoxComp = (props: iTaskStuff) => {
                     </div>
                 </Modal.Body>
             </Modal>
-        </div>
+        </Draggable>
     )
 }
 

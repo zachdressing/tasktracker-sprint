@@ -1,4 +1,4 @@
-import { Button, Modal, Select, Textarea } from 'flowbite-react'
+import { Button, Modal, Select, TextInput, Textarea } from 'flowbite-react'
 import React, { useState } from 'react'
 import { ITask } from '../interfaces/interfaces';
 import { useTaskContext } from '@/context/UseContext';
@@ -29,69 +29,56 @@ const TaskBoxComp = (props: ITask) => {
                     <h1 className='text-4xl font-bold'>{props.title}</h1>
                 </Modal.Header>
                 <Modal.Body className='p-8 pt-0 flex flex-wrap justify-between'>
-                    <h2 className='text-xl mb-4'>Description</h2>
-                    <div id='row1' className='w-full h-full flex justify-between items-center'>
-                        <div className="col w-2/3">
-                            <div id='description' className="text-start">
-                                <div className='h-36 bg-gray-100 rounded-md p-6 overflow-y-scroll'>
-                                    <p className=''>{props.desc}</p>
+                    <h2 className='text-xl font-bold mb-2'>Description</h2>
+                    <div id='row1' className='w-full h-full flex justify-between'>
+                        <div className="col w-2/3 flex flex-col justify-between">
+                            <div id='description' className="h-full">
+                                <div className='bg-gray-100 h-[40%] w-full p-6 rounded overflow-y-scroll'>
+                                    {props.desc}
                                 </div>
+                            <div id='commentBox' className='1/3 mt-6 mb-2'>
+                                <h1 className='text-xl font-bold'>Comment</h1>
+                                <TextInput className='h-full'/>
                             </div>
-                            <div id='commentBox'>
-                                <h1 className='text-xl mt-6 mb-2'>Comments</h1>
-                                <Textarea className='w-full'>
-
-                                </Textarea>
                             </div>
                         </div>
                         <div className="col w-[30%]">
-                            <div className='bg-gray-100 rounded-md h-full min-h-[325px] p-6 flex flex-col justify-between'>
-                                <div id='assignrow1' className='flex justify-between'>
-                                    <p>Assignee:<br /><span className='text-gray-300'>{props.assigneeName}</span></p>
-                                    <div className={`w-10 h-10 rounded-full bg-${props.assigneeColor} border border-black`}></div>
+                            <div className='bg-gray-100 rounded-md min-h-[325px] p-6 flex flex-col justify-between'>
+                                <div id='assignrow1' className='flex justify-between items-center'>
+                                    <p className='font-bold'>Assignee:<br /><span className='text-gray-400'>{'Username'}</span></p>
+                                    <div className={`w-10 h-10 rounded-full bg-${'reddish'} border border-black`}></div>
                                 </div>
                                 <div id='assignrow2'>
-                                    <p>{props.createdDate}</p>
+                                    <p className='font-bold'>{props.createdDate}</p>
                                 </div>
-                                <div id='assignrow3' className='h-full flex flex-col justify-between'>
-                                    <Button color='gray' className={`border border-black flex w-full justify-between ${openCat ? "hidden" : "visible"}`} onClick={() => setOpenCat(true)}>
-                                        <p className='text-green-500'>{cat}</p>
-                                        <p>{openCat ? '⏶' : '⏷'}</p>
+                                <div id='assignrow3' className='flex flex-col justify-between gap-y-4'>
+                                    <Button color='gray' className={`border border-black flex justify-start ${openCat ? "invisible" : "visible"}`} onClick={() => setOpenCat(true)}>
+                                        <div className="">
+                                            <p className='text-green-500 font-bold'>{cat}</p>
+                                        </div>
+                                        <div className="">
+                                            <p>{openCat ? '⏶' : '⏷'}</p>
+                                        </div>
                                     </Button>
-                                    <Button.Group className={`flex flex-col ${openCat ? "visible" : "hidden"}`}>
-                                        <Button color="gray" className='rounded-t-lg rounded-b-none border-black' onClick={() => { setCat("To-Do"), setOpenCat(false) }}>
-                                            <p className='text-green-500'>To-Do</p>
+                                    <Button.Group className={`flex flex-col text-start absolute ${openCat ? "visible z-50 w-48" : "hidden"}`}>
+                                        <Button color="gray" className='rounded-t-lg rounded-b-none border-black flex justify-start' onClick={() => { setCat("To-Do"), setOpenCat(false) }}>
+                                            <p className='text-green-500 font-bold'>To-Do</p>
                                         </Button>
-                                        <Button color="gray" className='border border-black' onClick={() => { setCat("In Progress"), setOpenCat(false) }}>
-                                            <p className='text-green-500'>In Progress</p>
+                                        <Button color="gray" className='border border-black flex justify-start' onClick={() => { setCat("In Progress"), setOpenCat(false) }}>
+                                            <p className='text-green-500 font-bold'>In Progress</p>
                                         </Button>
-                                        <Button color="gray" className='rounded-t-none rounded-b-lg border border-black' onClick={() => { setCat("Completed"), setOpenCat(false) }}>
-                                            <p className='text-green-500'>Completed</p>
+                                        <Button color="gray" className='rounded-t-none rounded-b-lg border border-black flex justify-start' onClick={() => { setCat("Completed"), setOpenCat(false) }}>
+                                            <p className='text-green-500 font-bold'>Completed</p>
                                         </Button>
                                     </Button.Group>
 
                                     <Button color='gray' className={`border border-black flex w-full justify-between`}>
-                                        <p className=''>{"Priority - " + props.priority}</p>
+                                        <p className='text-green-500 font-bold'>{"Priority - " + props.priority}</p>
                                     </Button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    {props.comments ?
-                        <div id='row2'>
-                            <div id='Comments'>
-                                <div className="flex items-center gap-2 my-4">
-                                    <div className={`w-10 h-10 rounded-full bg-${props.comments.comment[0].commentColor} border border-black`}></div>
-                                    <p>Username</p>
-                                    <p className='text-gray-300'>Date</p>
-                                    <p className='text-gray-300'>Time</p>
-                                </div>
-                                <div className=""></div>
-                            </div>
-                        </div> : null}
-
-
                 </Modal.Body>
             </Modal>
         </div>

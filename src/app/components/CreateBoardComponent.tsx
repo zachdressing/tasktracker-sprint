@@ -41,10 +41,11 @@ const CreateBoardComponent = () => {
 
         try {
             let result = await createBoard(newBoard)
-
+            
             if (result) {
+                console.log("New Board Info:", result);
                 context.setDisplayedBoard(newBoard)
-                router.push('/ClubPage')
+                router.push('/TaskPage')
             }
         } catch (error) {
             alert("Creating Group Unsuccessful!")

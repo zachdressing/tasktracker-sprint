@@ -17,7 +17,7 @@ const ProfilePage = () => {
 
 
     // get user's information
-    useEffect(()=> {
+    useEffect(() => {
         let userId = Number(localStorage.getItem("UserId"));
         const fetchedUser = async () => {
             const user = await getUserInfo(userId);
@@ -25,6 +25,18 @@ const ProfilePage = () => {
         };
         fetchedUser();
     }, [])
+    
+    const formatDate = () => {
+        const date = new Date(info.loggedInUser?.dateJoined ?? ''); // Provide an empty string as default
+        const formattedDate = date.toLocaleDateString('en-US', {
+          month: '2-digit', // MM
+          day: '2-digit',   // DD
+          year: 'numeric'   // YYYY
+        });
+        return formattedDate;
+      };
+    // const formattedDate = formatDate(info.loggedInUser?.dateJoined);
+
 
     const handlePicChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0];
@@ -33,7 +45,7 @@ const ProfilePage = () => {
             reader.onload = () => {
                 const imageData = reader.result as string;
                 // set the image to a hook for now
-                setProfilePic(imageData); 
+                setProfilePic(imageData);
                 console.log("New profile picture data:", imageData);
             };
             // Read file as base64-encoded string
@@ -90,14 +102,14 @@ const ProfilePage = () => {
                             <img src="/Pencil.png" alt="" className="w-[45px] h-[45px] cursor-pointer" />
                         </Tooltip>
                     </div>
-                    <h1 className="font-hammersmith text-6xl pt-8">USERNAME</h1>
-                    <p className="font-hammersmith text-3xl py-10">Joined 12/31/1937</p>
+                    <h1 className="font-hammersmith text-6xl pt-8">{info.loggedInUser?.username.toLocaleUpperCase()}</h1>
+                    <p className="font-hammersmith text-3xl py-10">{`Joined ${formatDate()}`}</p>
                 </div>
                 <div className="lg:col-span-3 col-span-5 h-[650px] border-[1px] border-black mt-12 me-2 mb-10 bg-white rounded-md overflow-y-auto no-scrollbar">
                     <div className="flex justify-center items-center gap-2 pt-10">
                         <h1 className="font-hammersmith text-[50px]">MY BOARDS</h1>
                         {/* <AddIcon sx={{ fontSize: 50 }} className="mt-[-7px] cursor-pointer" onClick={() => setOpenModal(true)} /> */}
-                        <CreateBoardComponent/>
+                        <CreateBoardComponent />
                     </div>
                     <div className="mx-14">
                         {colors.map((color, index) => (

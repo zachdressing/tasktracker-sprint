@@ -8,6 +8,7 @@ const TaskBoxComp = (props: ITask) => {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const [openCat, setOpenCat] = useState(false);
     const [cat, setCat] = useState("To-Do")
+    var date = new Date(props.createdDate);
 
 
     return (
@@ -49,7 +50,7 @@ const TaskBoxComp = (props: ITask) => {
                                     <div className={`w-10 h-10 rounded-full bg-${'reddish'} border border-black`}></div>
                                 </div>
                                 <div id='assignrow2'>
-                                    <p className='font-bold'>{props.createdDate}</p>
+                                    <p className='font-bold'>{(date.toLocaleDateString())}</p>
                                 </div>
                                 <div id='assignrow3' className='flex flex-col justify-between gap-y-4'>
                                     <Button color='gray' className={`border border-black flex justify-start ${openCat ? "invisible" : "visible"}`} onClick={() => setOpenCat(true)}>

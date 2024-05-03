@@ -122,6 +122,8 @@ const TaskPage = () => {
 
     }
 
+    const colors = ["bg-[#AEE6D9]", "bg-[#6FDFC4]", "bg-[#3EBE9F]", "bg-[#AEE6D9]"];
+
     return (
         <div className='bg-backMain h-[calc(fit+144px)] mb-12'>
             {/* <div id='taskNav' className="flex items-center gap-4 p-12 pb-8">
@@ -153,7 +155,7 @@ const TaskPage = () => {
                     {
                         data.categories.map((el, key) => {
                             return (
-                                <div id={data.categories.indexOf(el).toString()} key={key} className={`w-[90%] h-80 bg-${el.color} rounded-lg p-6 pr-8 flex flex-col`}>
+                                <div id={data.categories.indexOf(el).toString()} key={key} className={`w-[90%] h-80 ${colors[key % 3]} rounded-lg p-6 pr-8 flex flex-col`}>
                                     <div className="flex w-full items-center mb-1">
                                         <p className='text-2xl font-bold cursor-default'>{el.title}</p>
                                         {el.addable === "true" ?

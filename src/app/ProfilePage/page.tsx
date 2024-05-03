@@ -197,7 +197,9 @@ const ProfilePage = () => {
                             >
                                 <h1 className="col-span-1 flex justify-start font-hammersmith text-4xl">{board.name}</h1>
                                 <div className="col-span-1 flex justify-end">
-                                    <div className="member" style={{backgroundColor: info.loggedInUser?.color}}></div>
+                                    <div className="member" style={{ backgroundColor: info.loggedInUser?.color }}>
+                                        <img className="member" src={info.loggedInUser?.color || "/"} alt="" />
+                                    </div>
                                 </div>
                             </div>
                         ))}

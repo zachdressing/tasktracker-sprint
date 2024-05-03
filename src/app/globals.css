@@ -68,3 +68,11 @@
 .divider {
   border-right: 2px dashed black;
 }
+
+#tasks>*>*{
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+#tasks>*>*::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}

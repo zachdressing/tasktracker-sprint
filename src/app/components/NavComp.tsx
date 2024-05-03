@@ -28,7 +28,7 @@ const NavComp = () => {
             }
           >
             <Dropdown.Item onClick={() => {router.push('/ProfilePage')}}>PROFILE</Dropdown.Item>
-            <Dropdown.Item>CREATE BOARD</Dropdown.Item>
+            <Dropdown.Item onClick={() => {router.push('/TaskPage')}}>CREATE BOARD</Dropdown.Item>
             <Dropdown.Item onClick={handleLogout}>LOG OUT<img className='ml-4' src='/Vector.png' alt='vector'/></Dropdown.Item>
           </Dropdown>
           <Navbar.Toggle />

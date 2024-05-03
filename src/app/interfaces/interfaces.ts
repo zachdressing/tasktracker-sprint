@@ -13,7 +13,7 @@ export interface ITask {
     color:         string;
     category:      number;
     id:            string;
-    comments?:      TaskComment[];
+    comments?:      TaskComment;
     assigneeColor: string;
     assigneeName:  string;
     createdDate:   number;
@@ -25,7 +25,7 @@ export interface TaskComment {
 
 export interface CommentComment {
     mainComment:  string;
-    replys:       Reply[];
+    replys?:       Reply[];
     date:         number;
     time:         number;
     commentColor: string;

@@ -61,42 +61,42 @@ const TaskPage = () => {
 
     const handleNewTask = (TaskData: ITask) => {
         //append new object
-        setData(prev => {
-            return {
-                ...prev,
-                categories: [{
-                        title: "To-Do",
-                        color: "todo",
-                        addable: 'true',
-                        tasks: [{
-                            title: "Task Title",
-                            desc: "this is a description",
-                            priority: 2,
-                            color: "reddish",
-                            category: 0,
-                            id: "1",
-                            comments: {
-                                comment: [{
-                                    mainComment: '',
-                                    replys: [{
-                                        reply: '',
-                                        date: date.toLocaleTimeString(),
-                                        time: date.toLocaleTimeString(),
-                                }][],
-                                date: date.toLocaleTimeString(),
-                                time: date.toLocaleTimeString(),
-                                commentColor: 'reddish',
-                            }][],
-                        },
-                            assigneeColor: "blueish",
-                            assigneeName: "Username",
-                            createdDate: 1714635786291
-                        }],
-                ...prev.categories[0].tasks
-                            }]
-                }
-        })
-    }
+        // setData(prev => {
+            // return {
+                // ...prev,
+                // categories: [{
+                        // title: "To-Do",
+                        // color: "todo",
+                        // addable: 'true',
+                        // tasks: [{
+                            // title: "Task Title",
+                            // desc: "this is a description",
+                            // priority: 2,
+                            // color: "reddish",
+                            // category: 0,
+                            // id: "1",
+                            // comments: {
+                                // comment: [{
+                                    // mainComment: '',
+                                    // replys: [{
+                                        // reply: '',
+                                        // date: date.toLocaleTimeString(),
+                                        // time: date.toLocaleTimeString(),
+                                // }][],
+                                // date: date.toLocaleTimeString(),
+                                // time: date.toLocaleTimeString(),
+                                // commentColor: 'reddish',
+                            // }][],
+                        // },
+                            // assigneeColor: "blueish",
+                            // assigneeName: "Username",
+                            // createdDate: 1714635786291
+                        // }],
+                // ...prev.categories[0].tasks
+                            // }]
+                // }
+        // })
+     }
 
 const handleNewCategory = (data: Icategory) => {
     //create object based on data

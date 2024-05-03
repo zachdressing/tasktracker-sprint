@@ -5,11 +5,15 @@ import TaskBoxComp from '../components/TaskBoxComp';
 import { DragDropContext, Draggable, DropResult, Droppable } from '@hello-pangea/dnd';
 import { ITask, Icategory } from '../interfaces/interfaces';
 import fakedata from "@/assets/fakedata.json";
-import { Button, Label, Modal, Popover, TextInput, Textarea } from 'flowbite-react';
+import { Button, Label, Modal, Popover, TextInput, Textarea, Tooltip } from 'flowbite-react';
+import { getBoardById } from '../utils/DataService';
+import { useTaskContext } from '@/context/UseContext';
+// import { Tooltip, Button } from 'flowbite-react';
 
 
 const TaskPage = () => {
-    const date = new Date;
+    const date = new Date;    
+    const board = useTaskContext();
     const [data, setData] = useState(fakedata);
     const [openModal, setOpenModal] = useState(false);
     const [openModal2, setOpenModal2] = useState(false);
@@ -29,6 +33,19 @@ const TaskPage = () => {
         createdDate: date.getTime()
     })
 
+    useEffect(() => {
+        const fetchedBoard = async () => {
+            const boardId = board.displayedBoard?.id;
+
+            if (boardId !== undefined) {
+                const data = await getBoardById(boardId);
+            } else {
+                console.error('Invalid board ID');
+            }
+        };
+
+        fetchedBoard(); // Call the async function
+    }, [board.displayedBoard?.id]);
 
     // const apiCall = async () => {
     //     var prom = await fetch('fakedata.json');

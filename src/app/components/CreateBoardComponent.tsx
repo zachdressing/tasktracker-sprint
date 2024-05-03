@@ -24,11 +24,9 @@ const CreateBoardComponent = () => {
         setName(e.target.value);
     }
 
-    const handleCreateBoard = async() => {
+    const handleCreateBoard = async () => {
         let userId = Number(localStorage.getItem("UserId"));
-        // Example usage
         const randomCode = generateRandomCode();
-        console.log(randomCode); // Output: "abc123"
         const newBoard: IBoardData = {
             id: id,
             userID: userId,
@@ -37,22 +35,21 @@ const CreateBoardComponent = () => {
             isPublished: true,
             isDeleted: false
         };
+    
         setBoardItems(prevBoardItems => [...prevBoardItems, newBoard])
-
+    
         try {
-            let result = await createBoard(newBoard)
+            let result = await createBoard(newBoard);
             
             if (result) {
-                console.log("New Board Info:", result);
-                context.setDisplayedBoard(newBoard)
-                router.push('/TaskPage')
+                console.log("New Board Info:", result); 
+                context.setDisplayedBoard(newBoard);
+                router.push('/TaskPage');
             }
         } catch (error) {
-            alert("Creating Group Unsuccessful!")
+            alert("Creating Group Unsuccessful!");
         }
-        router.push('/TaskPage')
-
-
+        router.push('/TaskPage');
     }
 
     const handleBoardPage = () => {
@@ -92,12 +89,12 @@ const CreateBoardComponent = () => {
                     <div className="grid grid-cols-2 justify-center items-center text-center">
                         <div className="col-span-1 font-hammersmith flex flex-col justify-center items-center gap-5 py-16 divider">
                             <h1 className="text-3xl">Enter Code</h1>
-                            <input className="text-[#3177FF] text-2xl font-holtwood w-[300px] rounded-md text-center boardInput" placeholder='Board Code' type="text" />
+                            <input className="text-[#3177FF] text-2xl font-holtwood w-[300px] rounded-md text-center boardInput" placeholder='Board Code' type="text" required />
                             <Button className="bg-[#0B7D61] text-lg px-4" onClick={handleBoardPage}>JOIN</Button>
                         </div>
                         <div className="col-span-1 font-hammersmith flex flex-col justify-center items-center gap-3 py-8 ">
                             <h1 className="text-3xl">Create New</h1>
-                            <input className="text-[#3177FF] text-2xl font-holtwood w-[300px] rounded-md text-center boardInput" placeholder='Name Board' type="text" />
+                            <input onChange={handleBoardName} className="text-[#3177FF] text-2xl font-holtwood w-[300px] rounded-md text-center boardInput" placeholder='Name Board' type="text" required />
                             <Button className="bg-[#0B7D61] text-lg px-4" onClick={handleCreateBoard}>CREATE</Button>
                         </div>
                     </div>

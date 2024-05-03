@@ -73,3 +73,9 @@ export interface ITaskData {
     status: number
     priority: number
 }
+
+export interface IMemberData {
+    id: number
+    userId: number
+    boardId: number
+}

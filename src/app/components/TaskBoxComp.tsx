@@ -1,6 +1,7 @@
 import { Button, Modal, Select, Textarea } from 'flowbite-react'
 import React, { useState } from 'react'
 import { ITask } from '../interfaces/interfaces';
+import { useTaskContext } from '@/context/UseContext';
 
 const TaskBoxComp = (props: ITask) => {
     const [openModal, setOpenModal] = useState(false);

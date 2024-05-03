@@ -6,7 +6,8 @@ import { Button, Modal, Tooltip } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import CreateBoardComponent from "../components/CreateBoardComponent";
 import { useTaskContext } from "@/context/UseContext";
-import { getUserInfo } from "../utils/DataService";
+import { getBoardById, getBoardMembers, getBoardsByUserId, getUserBoards, getUserInfo, updateUserInfo } from "../utils/DataService";
+import { IBoardData, IUserData } from "../interfaces/interfaces";
 // import Users from "../utils/logindata.json"
 
 const ProfilePage = () => {
@@ -14,60 +15,103 @@ const ProfilePage = () => {
     const [profilePic, setProfilePic] = useState<string | null>(null);
     const router = useRouter();
     const info = useTaskContext();
+    const [boards, setBoards] = useState<IBoardData[]>([]);
+    const [userBoards, setUserBoards] = useState<IBoardData[]>([]);
 
 
     // get user's information
     useEffect(() => {
-        let userId = Number(localStorage.getItem("UserId"));
-        const fetchedUser = async () => {
+        const fetchData = async () => {
+            let userId = Number(localStorage.getItem("UserId"));
+
+            // Fetch user info and set color
             const user = await getUserInfo(userId);
-            info.setLoggedInUser(user);
+            if (user) {
+                info.setLoggedInUser(user);
+                setRandomColor(user.color || "#57CDFF");
+            }
+
+            // Fetch boards by userId
+            const boardsData = await getBoardsByUserId(userId);
+            setBoards(boardsData || []);
+
+            // Fetch user's boards
+            const userBoardsData = await getUserBoards(userId);
+            setUserBoards(userBoardsData || []);
         };
-        fetchedUser();
-    }, [])
-    
+
+
+        fetchData();
+    }, []);
+
+
+    // trying to rerender once color/image is selected
+    useEffect(() => {
+        const userId = Number(localStorage.getItem("UserId"));
+        const fetchUserData = async () => {
+            const userData = await getUserInfo(userId);
+            if (userData) {
+                setProfilePic(userData.color);
+            }
+        };
+        fetchUserData();
+    }, [profilePic]);
+
+
     const formatDate = () => {
         const date = new Date(info.loggedInUser?.dateJoined ?? ''); // Provide an empty string as default
         const formattedDate = date.toLocaleDateString('en-US', {
-          month: '2-digit', // MM
-          day: '2-digit',   // DD
-          year: 'numeric'   // YYYY
+            month: '2-digit', // MM
+            day: '2-digit',   // DD
+            year: 'numeric'   // YYYY
         });
         return formattedDate;
-      };
-    // const formattedDate = formatDate(info.loggedInUser?.dateJoined);
+    };
 
 
     const handlePicChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0];
+
         if (file) {
             const reader = new FileReader();
-            reader.onload = () => {
+            reader.onload = async () => {
                 const imageData = reader.result as string;
-                // set the image to a hook for now
-                setProfilePic(imageData);
-                console.log("New profile picture data:", imageData);
+
+                try {
+                    const userId = Number(localStorage.getItem("UserId"));
+                    const userData = await getUserInfo(userId);
+                    setProfilePic(imageData);
+
+                    if (userData) {
+                        const updatedUserData: IUserData = {
+                            ...userData,
+                            color: imageData, // Store the image data in the color property
+                        };
+
+                        const result = await updateUserInfo(updatedUserData);
+                        console.log("User information updated successfully:", result);
+                        window.location.reload();
+                    }
+                } catch (error) {
+                    console.error("Error updating user information:", error);
+                }
             };
-            // Read file as base64-encoded string
+
             reader.readAsDataURL(file);
         }
     };
 
-    // Function that handles the User Image/Color
-    const updateUserImage = () => {
 
-    }
-
-    // GET BOARD BY LEADER ID OR GET USER'S BOARD 
-    const handleBoardClick = () => {
-        try {
-            // const boardDisplayedInfo = await (board.id)
-            // info.setDisplayedBoard(boardDisplayedInfo)
-            router.push('/TaskPage')
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // // GET BOARD BY LEADER ID OR GET USER'S BOARD 
+    // const handleBoardClick = () => {
+    //     try {
+    //         // const boardDisplayedInfo = await (board.id)
+    //         // info.setDisplayedBoard(boardDisplayedInfo)
+    //         router.push('/TaskPage')
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     const getRandomColor = () => {
         const r = Math.floor(Math.random() * 256);
@@ -77,15 +121,35 @@ const ProfilePage = () => {
     }
     const [randomColor, setRandomColor] = useState("#57CDFF");
 
-    const handlePaintBrushClick = () => {
+    const handlePaintBrushClick = async () => {
         const newColor = getRandomColor();
-        setRandomColor(newColor)
-    }
+        setRandomColor(newColor);
+
+        try {
+            const userId = Number(localStorage.getItem("UserId"));
+            const userData = await getUserInfo(userId);
+
+            if (userData) {
+                const updatedUserData: IUserData = {
+                    ...userData,
+                    color: newColor, // Store the new color in the color property
+                };
+
+                const result = await updateUserInfo(updatedUserData);
+                console.log("User information updated successfully:", result);
+            }
+        } catch (error) {
+            console.error("Error updating user information:", error);
+        }
+    };
 
     const colors = ["bg-[#AEE6D9]", "bg-[#6FDFC4]", "bg-[#3EBE9F]", "bg-[#AEE6D9]"];
-    const handleTaskPage = () => {
-        router.push('/TaskPage')
-    }
+    const handleTaskPage = async (boardId: number) => {
+        // const boardData: IBoardData = { id: boardId, /* Add other properties as needed */ };
+        const getBoard = await getBoardById(boardId);
+        info.setDisplayedBoard(getBoard);
+        router.push('/TaskPage');
+    };
 
     return (
         <div className="bg-[#F1FFFC] min-h-screen">
@@ -96,10 +160,23 @@ const ProfilePage = () => {
                             <img src="/PaintBrush.png" alt="" className="w-[45px] h-[45px] cursor-pointer" onClick={handlePaintBrushClick} />
                         </Tooltip>
                         <div className="profileColor" style={{ backgroundColor: randomColor }}>
-                            <img src={"/"} alt="" />
+                            <img className="profileColor" src={info.loggedInUser?.color || "/"} alt="" />
                         </div>
                         <Tooltip content="Profile Picture" placement="bottom" className="px-5 py-2 rounded-md font-hammersmith text-lg">
-                            <img src="/Pencil.png" alt="" className="w-[45px] h-[45px] cursor-pointer" />
+                            <label htmlFor="fileInput">
+                                <img
+                                    src="/Pencil.png"
+                                    alt=""
+                                    className="w-[45px] h-[45px] cursor-pointer"
+                                />
+                            </label>
+                            <input
+                                id="fileInput"
+                                type="file"
+                                accept=".png, .jpeg, .jpg"
+                                style={{ display: "none" }}
+                                onChange={handlePicChange}
+                            />
                         </Tooltip>
                     </div>
                     <h1 className="font-hammersmith text-6xl pt-8">{info.loggedInUser?.username.toLocaleUpperCase()}</h1>
@@ -112,14 +189,32 @@ const ProfilePage = () => {
                         <CreateBoardComponent />
                     </div>
                     <div className="mx-14">
-                        {colors.map((color, index) => (
-                            <div key={index} className={`${colors[index % 3]} grid grid-cols-2 items-center px-10 py-7 my-12 rounded-md cursor-pointer`} onClick={handleTaskPage}>
-                                <h1 className="col-span-1 flex justify-start font-hammersmith text-4xl">YOUR BOARD</h1>
+                        {boards.map((board, idx) => (
+                            <div
+                                key={idx}
+                                className={`${colors[idx % 3]} grid grid-cols-2 items-center px-10 py-7 my-12 rounded-md cursor-pointer`}
+                                onClick={() => handleTaskPage(board.id)} // Pass a callback function
+                            >
+                                <h1 className="col-span-1 flex justify-start font-hammersmith text-4xl">{board.name}</h1>
+                                <div className="col-span-1 flex justify-end">
+                                    <div className="member" style={{backgroundColor: info.loggedInUser?.color}}></div>
+                                </div>
+                            </div>
+                        ))}
+
+                        {userBoards.map((userBoard, idx) => (
+                            <div
+                                key={idx}
+                                className={`${colors[idx % 3]} grid grid-cols-2 items-center px-10 py-7 my-12 rounded-md cursor-pointer`}
+                                onClick={() => handleTaskPage(userBoard.id)} // Pass a callback function
+                            >
+                                <h1 className="col-span-1 flex justify-start font-hammersmith text-4xl">{userBoard.name}</h1>
                                 <div className="col-span-1 flex justify-end">
                                     <div className="member"></div>
                                 </div>
                             </div>
                         ))}
+
                     </div>
                 </div>
             </div>
